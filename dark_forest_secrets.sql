@@ -1,23 +1,21 @@
 /* Проект «Секреты Тёмнолесья»
- * Цель проекта: изучить влияние характеристик игроков и их игровых персонажей 
- * на покупку внутриигровой валюты «райские лепестки», а также оценить 
- * активность игроков при совершении внутриигровых покупок
- * 
- * Автор: Денис Рубцов
- * Дата: 20.11.2025
+ Цель проекта: изучить влияние характеристик игроков и их игровых персонажей 
+ на покупку внутриигровой валюты «райские лепестки», а также оценить 
+ активность игроков при совершении внутриигровых покупок
+ 
+ Автор: Денис Рубцов
+ Дата: 20.11.2025
 */
 
 -- Часть 1. Исследовательский анализ данных
 -- Задача 1. Исследование доли платящих игроков
 
 -- 1.1. Доля платящих пользователей по всем данным:
--- Напишите ваш запрос здесь
 SELECT COUNT(id) AS total_users,
 	   SUM(payer) AS payers,
 	   ROUND(AVG(payer),4) AS paying_users_share
 FROM fantasy.users;
 -- 1.2. Доля платящих пользователей в разрезе расы персонажа:
--- Напишите ваш запрос здесь
 SELECT race, 
 	   SUM(payer) AS payers,
 	   COUNT(id) AS total_users,
@@ -29,7 +27,6 @@ GROUP BY 1
 ORDER BY 4 DESC;
 -- Задача 2. Исследование внутриигровых покупок
 -- 2.1. Статистические показатели по полю amount:
--- Напишите ваш запрос здесь
 SELECT COUNT(amount) AS total_amt,
 	   SUM(amount) AS sum_amt,
 	   MIN(amount) AS min_amt,
@@ -50,7 +47,6 @@ FROM fantasy.events
 WHERE amount > 0
 ORDER BY 1 DESC;
 -- 2.2: Аномальные нулевые покупки:
--- Напишите ваш запрос здесь
 SELECT COUNT(*) AS total_pay,
 	   COUNT(*) FILTER (WHERE amount = 0) AS null_pay,
 	   ROUND(COUNT(*) FILTER (WHERE amount = 0) / COUNT(*)::NUMERIC,4) AS perc_pay
@@ -75,7 +71,6 @@ GROUP BY id,
 		 total_zero
 ORDER BY 3 DESC;
 -- 2.3: Популярные эпические предметы:
--- Напишите ваш запрос здесь
 WITH total_amt_users AS (
 SELECT COUNT(amount) AS total_amt,
 	   COUNT(DISTINCT id) AS total_users
@@ -97,7 +92,6 @@ GROUP BY game_items,
 ORDER BY 2 DESC;
 -- Часть 2. Решение ad hoc-задачи
 -- Задача: Зависимость активности игроков от расы персонажа:
--- Напишите ваш запрос здесь
 WITH ingame_purchase_players AS (
 SELECT race,
 	   COUNT(DISTINCT e.id) AS ingame_purc_users,

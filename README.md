@@ -141,7 +141,7 @@
 ```bash
    git clone https://github.com/arafion-lomendil/dark_forest_secrets
 ```
-2. Выполнить запрос из `game_analysis.sql`
+2. Выполнить запросы из `game_analysis.sql`
    на базе данных со схемой `fantasy`.
 3. Результаты анализа и выводы описаны в `dark_forest_secrets_report.md`.
 

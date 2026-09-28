@@ -15,6 +15,7 @@ SELECT COUNT(id) AS total_users,
 	   SUM(payer) AS payers,
 	   ROUND(AVG(payer),4) AS paying_users_share
 FROM fantasy.users;
+
 -- 1.2. Доля платящих пользователей в разрезе расы персонажа:
 SELECT race, 
 	   SUM(payer) AS payers,
@@ -25,6 +26,7 @@ LEFT JOIN fantasy.race
 USING (race_id)
 GROUP BY 1
 ORDER BY 4 DESC;
+
 -- Задача 2. Исследование внутриигровых покупок
 -- 2.1. Статистические показатели по полю amount:
 SELECT COUNT(amount) AS total_amt,
@@ -46,11 +48,13 @@ SELECT COUNT(amount),
 FROM fantasy.events
 WHERE amount > 0
 ORDER BY 1 DESC;
+
 -- 2.2: Аномальные нулевые покупки:
 SELECT COUNT(*) AS total_pay,
 	   COUNT(*) FILTER (WHERE amount = 0) AS null_pay,
 	   ROUND(COUNT(*) FILTER (WHERE amount = 0) / COUNT(*)::NUMERIC,4) AS perc_pay
 FROM fantasy.events;
+
 --Подсчет пользователей, совершивших нулевые покупки:
 WITH total_zero AS (
 SELECT COUNT(game_items) AS total_zero
@@ -70,6 +74,7 @@ GROUP BY id,
 		 game_items,
 		 total_zero
 ORDER BY 3 DESC;
+
 -- 2.3: Популярные эпические предметы:
 WITH total_amt_users AS (
 SELECT COUNT(amount) AS total_amt,
@@ -90,6 +95,7 @@ GROUP BY game_items,
 		 total_amt,
 		 total_users
 ORDER BY 2 DESC;
+
 -- Часть 2. Решение ad hoc-задачи
 -- Задача: Зависимость активности игроков от расы персонажа:
 WITH ingame_purchase_players AS (
@@ -133,4 +139,3 @@ GROUP BY r.race,
 	  	 avg_amt_per_user,
 	  	 avg_total_amt_pet_user
 ORDER BY 8 DESC;
-
